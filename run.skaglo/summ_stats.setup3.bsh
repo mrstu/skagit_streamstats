@@ -1,0 +1,50 @@
+#!/bin/bash
+
+#locdata="/home/matt/data/streamflows"
+#inflood=$(ls -d /home/matt/data/streamflows/*.flood.*/)
+#inlow=$(ls -d /home/matt/data/streamflows/*.low.*/)
+
+locdata=$1
+opdir=$2
+inflood=$(ls -d $opdir.flood.*/)
+inlow=$(ls -d $opdir.low.*/)
+
+cd $locdata
+
+lines=(5 1)
+for linenum in ${lines[@]}
+do
+
+case $linenum in
+	1)
+       flowfiles=$inlow
+       op="head"
+    	;;
+	5)
+       flowfiles=$inflood
+       op="tail"
+	   ;;
+esac
+
+
+#
+# Find stat files, pull from top for low flow (GEV-L), bottom for peak flow (LN3)
+# Run over file and prepend path.  For bc files, clean up file name.
+#
+
+for d in $flowfiles
+do
+        
+    echo $d
+    summprefix=$(basename $d)
+    summname=sumtab_$summprefix
+    echo $summname
+    echo find $d -name "*_stats" -exec $op -n 1 {} \;
+    find $d -name "*_stats" -exec $op -n 1 {} \; > $summname.tmp
+    #mv $summname $summname.tmp
+
+    awk -v path=$d '{print path, $0}' $summname.tmp | sed -e 's/ dist//g' -e 's/\.txt//g' > $summname.txt
+    rm $summname.tmp
+done
+
+done

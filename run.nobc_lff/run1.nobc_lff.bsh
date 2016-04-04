@@ -1,0 +1,53 @@
+#!/bin/bash
+
+#:~/Dropbox/tools/projects/skagit_streamstats$ for i in $(ls -d ~/data/streamflows/outputsG_future.streamflow/*_out); do ./run1.bsh setup1.cfg $i; done
+#:~/Dropbox/tools/projects/skagit_streamstats$ for i in $(ls -d ~/data/streamflows/outputs_skagitHYDRO_G.streamflow); do ./run1.bsh setup0.cfg $i; done
+
+#:~/Dropbox/tools/projects/skagit_streamstats$ for i in $(ls -d ~/data/streamflows/outputs_19Aug_1960_2099.4col.historical); do ./run1.bc.bsh setup0.bc.cfg $i; done
+#:~/Dropbox/tools/projects/skagit_streamstats$ for i in $(ls -d ~/data/streamflows/outputs_19Aug_1960_2099.4col.rcp); do ./run1.bc.bsh setup1.bc.cfg $i; done
+
+#source setup1.cfg
+source $1
+
+DIR_INPUTS=$2
+
+#subdirin=$2
+#DIR_INPUTS=$DIR_INPUTS0/$subdirin
+
+DIR_OUT_FLOOD=$DIR_INPUTS".flood".$STARTYEAR"-"$ENDYEAR
+DIR_OUT_LOW=$DIR_INPUTS".low".$STARTYEAR"-"$ENDYEAR
+
+echo "=================="
+echo "==== SETTINGS ===="
+echo "=================="
+
+echo "==== I/O ===="
+echo "(3)" $DIR_INPUTS $DIR_OUT_FLOOD $DIR_OUT_LOW
+echo "==== Source Files ===="
+echo "(1)" $SRC_STATS_FLOOD
+echo "(1)" $SRC_STATS_7Q10
+echo "==== Water Year Start Month (offset to capture low flows after start of normal WY month=10) ===="
+echo "(1)" $WYMONSTART
+
+echo "=================="
+echo "==== STARTING ===="
+echo "=================="
+
+# Make output directories
+mkdir -p $DIR_OUT_FLOOD $DIR_OUT_LOW
+# Complile sources
+gcc -o $BIN_STATS_FLOOD $SRC_STATS_FLOOD -lm
+gcc -o $BIN_STATS_7Q10 $SRC_STATS_7Q10 -lm
+#exit
+
+#sumoutput_flood_stats $flowfile $outdir/$mod/ $statdir/$mod/ 1915 2006 2006 $flowfile
+#sumoutput_7q10_stats.clean $flowfile $outdir/$mod/ $lowstatdir/$mod/ 1915 2006 2006 $flowfile $wymonthstart
+
+for infile in $DIR_INPUTS/*.lowflowfilter.out
+do
+    flowfile=$(basename $infile)
+    #echo $BIN_STATS_FLOOD $flowfile $DIR_INPUTS/ $DIR_OUT_FLOOD/ $STARTYEAR 9999 $ENDYEAR $flowfile
+    $BIN_STATS_FLOOD $flowfile $DIR_INPUTS/ $DIR_OUT_FLOOD/ $STARTYEAR 9999 $ENDYEAR $flowfile
+    $BIN_STATS_7Q10 $flowfile $DIR_INPUTS/ $DIR_OUT_LOW/ $STARTYEAR 9999 $ENDYEAR $flowfile $WYMONSTART
+	#exit # exit after first time series
+done

@@ -1,0 +1,60 @@
+#!/bin/bash
+
+opname=skaglo_cms #outputG_skagitHYDRO_lowflow.nobc_lff.rcp
+locdata=~/data/streamflows
+opdir=$locdata/$opname
+
+#:<<-CMT
+for i in $(ls -d $opdir); do ./run1.skaglo.bsh setup3.skagitlowlands.cfg $i; done # get historical from bias corrected rcp output
+
+#exit
+## Stats all in .../data/streamflows/*.{flood,low}*/
+#./summ_stats.setup2.bsh $locdata $opdir
+
+./summ_stats.setup3.bsh $locdata $opdir
+
+
+#CMT
+
+#exit
+
+#oprefix=outputs_19Aug_1960_2099; python bothex_tables.py $oprefix flood "/home/matt/data/streamflows/sumtab_outputs_19Aug_1960_2099.4col.*.flood.*.txt"
+#"/home/matt/data/streamflows/sumtab_outputs_19Aug_1960_2099.4col.*.low.*.txt"
+#:<<-CMT
+for op2 in 1 2
+#for op2 in 1
+#for op2 in 2
+do
+    
+for i in $locdata/sumtab_$opname.flood.*.txt
+do
+    opname2=$(basename $i ".txt")
+    #tabdir=$locdata/tables.$opname.flood
+    tabdir=$locdata/tables.${opname2/sumtab_/}.flood    
+    oprefix=$(basename $i ".txt" | sed 's|sumtab_||g'); 
+    if [ $op2 == 1 ]
+    then
+        python bothex_tables.py $oprefix flood $i $tabdir
+    else
+        ./bothex_tables_pctchg.py $tabdir
+    fi
+done
+#CMT
+#exit
+for i in $locdata/sumtab_$opname.low.*.txt
+do
+    opname2=$(basename $i ".txt")    
+    #tabdir=$locdata/tables.$opname.low
+    tabdir=$locdata/tables.${opname2/sumtab_/}.low    
+    oprefix=$(basename $i ".txt" | sed 's|sumtab_||g')
+    if [ $op2 == 1 ]
+    then    
+        python bothex_tables.py $oprefix low $i $tabdir
+    else
+        ./bothex_tables_pctchg.py $tabdir
+    fi
+done
+done        
+#oprefix=outputs_19Aug_1960_2099; python bothex_tables.py $oprefix low "/home/matt/data/streamflows/sumtab_outputs_11Nov_1960_2099.bclff.*.low.*.txt"
+#oprefix=outputsG_future.streamflow; python bothex_tables.py $oprefix flood "/home/matt/data/streamflows/outputsG_future.streamflow/sumtab_*.flood.*.txt"
+#"/home/matt/data/streamflows/outputsG_future.streamflow/sumtab_*.low.*.txt"

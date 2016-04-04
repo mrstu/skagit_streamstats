@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#locdata="/home/matt/data/streamflows"
+#inflood=$(ls -d /home/matt/data/streamflows/*.flood.*/)
+#inlow=$(ls -d /home/matt/data/streamflows/*.low.*/)
+
+locdata=$1
+opdir=$2
+inflood=$(ls -d $opdir.flood.*/)
+inlow=$(ls -d $opdir.low.*/)
+
+cd $locdata
+
+lines=(5 1)
+for linenum in ${lines[@]}
+do
+
+case $linenum in
+	1)
+       flowfiles=$inlow
+       op="head"
+    	;;
+	5)
+       flowfiles=$inflood
+       op="tail"
+	   ;;
+esac
+
+
+#
+# Find stat files, pull from top for low flow (GEV-L), bottom for peak flow (LN3)
+# Run over file and prepend path.  For bc files, clean up file name.
+#
+
+for d in $flowfiles
+do
+        
+    echo $d
+    summprefix=$(basename $d)
+    summname=sumtab_$summprefix
+    echo $summname
+    echo find $d -name "*_stats" -exec $op -n 1 {} \;
+    find $d -name "*_stats" -exec $op -n 1 {} \; > $summname.tmp
+    #mv $summname $summname.tmp
+
+    awk '{print $0}' $summname.tmp | \
+    sed -e 's/.lowflowfilter.out//g' | \
+    awk -v path=$d '{n12=split($1,p12,"."); n1=split(p12[1],p1,"_"); if(n1>2){pname=p1[1]; for(i=2;i<n1;i++){pname=pname"_"p1[i]}; printf("%s ", path" "pname"__"p1[n1]"__"p12[2])} else{printf("%s ",path" "p1[1]"__"p1[2]"__"p12[2])}; printf("%d ",$3); for(i=4;i<NF;i++){printf("%s ",$i)}; printf("%s\n",$NF)}' > $summname.txt
+
+
+    #awk '{for(i>2;i<NF;i++){printf("%s ",$i)}; print $NF}' $summname.tmp > $summname.3.txt
+    #paste -d" " $summname.2.txt $summname.3.txt > $summname.txt
+
+    #rm $summname.2.txt $summname.3.txt 
+    rm $summname.tmp
+done
+
+done
