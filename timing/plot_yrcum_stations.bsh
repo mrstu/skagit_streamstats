@@ -1,0 +1,18 @@
+#!/bin/bash
+
+### Panel plot, one panel per station, 4 period lines per station, either a gcm or ensemble averages per line.
+
+#gcms=CCSM4
+rlim=20.0
+
+gcms="CCSM4 CNRM-CM5 CanESM2 HadGEM2-CC365 HadGEM2-ES365 IPSL-CM5A-MR MIROC5 NorESM1-M bcc-csm1-1-m"
+
+for gcm in $gcms
+do
+
+./panel_yrcum.py nobc rcp45 scale $rlim igcm $gcm
+./panel_yrcum.py bc rcp45 scale $rlim igcm $gcm    
+./panel_yrcum.py nobc rcp85 scale $rlim igcm $gcm
+./panel_yrcum.py bc rcp85 scale $rlim igcm $gcm    
+
+done

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+### Panel plot, one panel per stations, 4 period bars per station, either a gcm or ensemble averages per line.
+###
+### (Scaling to for Q>Q10 by Q10)
+
+#TODO: Add legend.
+
+gcms="CCSM4 CNRM-CM5 CanESM2 HadGEM2-CC365 HadGEM2-ES365 IPSL-CM5A-MR MIROC5 NorESM1-M bcc-csm1-1-m"
+
+#trt="bc"
+treatments="bc nobc"
+#treatments="bc"
+for trt in $treatments
+do
+    
+
+#:<<-CMT
+./panel_yrpeak_enstops.py $trt rcp85 scale 2.0 ensemble $gcms
+./panel_yrpeak_enstops.py $trt rcp45 scale 2.0 ensemble $gcms
+#CMT
+
+#:<<-CMT
+for gcm in $gcms
+#for gcm in CCSM4
+do
+    #./panel_yrpeak_enstops.py $trt $scen scale 2.0 igcm $gcm    
+    ./panel_yrpeak_enstops.py $trt rcp45 scale 2.0 igcm $gcm
+    ./panel_yrpeak_enstops.py $trt rcp85 scale 2.0 igcm $gcm    
+done
+#CMT
+
+done

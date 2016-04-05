@@ -1,0 +1,26 @@
+#!/bin/bash
+
+### 
+###
+### Configuration hardwired: 
+###     A,B) (rcp45,rcp85) x (bc, bc)|(nobc, nobc); 
+###     C)   rcp85 x (nobc, bc)
+
+
+#rlim=20.0
+rlim=10.0
+#./panel_yrcum_station.py -1 -1 scale $rlim igcm $gcm
+#./panel_yrcum_station.py -1 -1 scale $rlim ensemble CanESM2 HadGEM2-CC365 IPSL-CM5A-MR MIROC5
+./panel_yrcum_stnper.py -1 -1 scale $rlim ensemble CCSM4 CNRM-CM5 CanESM2 HadGEM2-CC365 HadGEM2-ES365 IPSL-CM5A-MR MIROC5 NorESM1-M bcc-csm1-1-m
+
+exit
+
+trt="bc"
+#trt="nobc"
+#scen="rcp45"
+#./panel_yrpeak_enstops.py nobc rcp45 scale 2.0
+
+rlim=20.0
+./panel_yrcum_stnper.py trtblah rcpblah scale $rlim igcm $gcm
+#./panel_yrcum_stnper.py trtblah rcpblah scale $rlim igcm $gcm
+#./panel_yrcum_stnper.py bc rcp85 scale $rlim igcm $gcm
