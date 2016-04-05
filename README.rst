@@ -52,6 +52,8 @@ Station (Diablo), GCM (bcc-csm1-1-m), RCP (rcp45) in collection (outputs_Feb_196
 
 outputs_Feb_1960_2099lowflow/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out
 
+::
+
    <year, month, day, flow>
    1961 10 2 2872.5
    1961 10 3 2073.8
@@ -61,6 +63,8 @@ outputs_Feb_1960_2099lowflow/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp
    2099 9 30 814.36
    
 outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_peak_flow_date
+
+::
 
    <nrec, flow, wyday, year, month, day>
    1 62170.0 88 1980 12 27
@@ -73,12 +77,16 @@ outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m
 
 outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_7q10_flow_date
 
+::
+
    <nrec, flow, wy day, wy day of month start, day in month, (nummonths)>
    1 938.070007 1 0 1 12
    2 1288.901611 132 123 9 12
    3 649.850159 353 335 18 12
 
 outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_7q10_cal_date
+
+::
 
    <year, month, day, wy, (nummonths), flow>
    1980 11 1 1981 12 938.070007
@@ -87,6 +95,8 @@ outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__
    ...
    
 outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_quantiles
+
+::
 
    <rank, flow, probability exceedance>
   30  9267.4 0.98013
@@ -108,7 +118,9 @@ outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m
      * GEV parameters based on LH4 moments (Wang 1997)
      * calculate EV1 parameters based on L moments
      * LN Type 3 (???)
-    
+
+::
+
    $col1 dist 0  9640.8 42563.0 53763.7 72011.0 89129.2 109819.0 143994.3
    $col1 dist 1 -3038.7 44471.2 52079.1 61329.3 67844.7 74001.9 81643.6 
    $col1 dist 2 -34607.1 46503.4 52580.9 58345.2 61509.5 63930.2 66287.4
@@ -119,7 +131,9 @@ outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__
    
    * col1="Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out"
    * col4-10: estimated 7-day averaged low flow magnitude for recurrence interval (500 200 100 50 20 10 2)
-   
+
+::
+
    **$col1 dist 0 17.745857 80.233597 133.382034 193.193848 286.543304 373.394928 711.771484** (GEV L-moments used preferentially for most low flows)
    $col1 dist 1 -315.492065 -196.993652 -100.094559 4.706165 159.355988 293.578156 729.729736 
    $col1 dist 2 -1443.068481 -1136.786377 -897.201904 -649.409912 -306.023529 -30.450373 706.221863
@@ -132,10 +146,14 @@ List for 1 statistic
 
 Floods **dist 4**
 
+::
+
 * sumtab_outputs_Feb_1960_2099lowflow.flood.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.flood.1980-2010.txt
 
 Lowflow **dist 0**
+
+::
 
 * sumtab_outputs_Feb_1960_2099lowflow.low.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.low.1980-2010.txt
@@ -159,6 +177,8 @@ Example tables for 1-year and 100-year flood flows:
 
    tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p1-y1.csv
 
+::
+
    ,CCSM4,CNRM-CM5,CSIRO-Mk-3-6-0,CanESM2,HadGEM2-CC365,HadGEM2-ES365,IPSL-CM5A-MR,MIROC5,NorESM1-M,bcc-csm1-1-m
    Diablo,8092.0,7819.0,7966.7,7794.4,8092.3,6711.6,7669.0,8152.8,8457.1,7814.0
    Gorge,8801.1,8485.0,8625.6,8509.5,8738.8,7291.2,8266.5,8811.6,9155.5,8522.5
@@ -169,7 +189,9 @@ Example tables for 1-year and 100-year flood flows:
    Whitechuck,3292.6,3406.3,3160.9,3564.5,3597.9,3384.7,3361.0,3375.4,3438.5,3096.2
 
    tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p5-y100.csv
-   
+
+::
+
    ,CCSM4,CNRM-CM5,CSIRO-Mk-3-6-0,CanESM2,HadGEM2-CC365,HadGEM2-ES365,IPSL-CM5A-MR,MIROC5,NorESM1-M,bcc-csm1-1-m
    Diablo,72246.8,76195.6,69652.1,70466.4,70069.9,78851.9,70254.9,78236.3,73607.5,69876.9
    Gorge,78470.3,82884.5,75620.4,76344.4,76268.2,85183.8,76536.9,85188.0,79916.4,76017.5
