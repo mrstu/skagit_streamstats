@@ -19,16 +19,22 @@ Shared production is not critical, but if it is not shared, independent handling
 
 A collection of multiple time series with shared production shall be located in a unique directory,
 
-   $sourceUnique/
+::
+
+$sourceUnique/
 
 Within the source directory, processing will track across the set of time series with a naming pattern like, 
 
-   $sourceUnique/$stationName.$gcm.$rcp.$suffix
+::
+
+$sourceUnique/$stationName.$gcm.$rcp.$suffix
 
 For a given time series, annual peak flood flow and annual low flow statistics and timing tables will be genearted.
 
-   $sourceUnique.flood.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{peak_flow_date,quantiles,strflw_flood_stats}
-   $sourceUnique.low.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{7q10_cal_date,7q10_flow_date,quantiles,strflw_7q10_stats}
+::
+
+$sourceUnique.flood.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{peak_flow_date,quantiles,strflw_flood_stats}
+$sourceUnique.low.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{7q10_cal_date,7q10_flow_date,quantiles,strflw_7q10_stats}
 
 Peak Flows
 ==========
@@ -109,15 +115,15 @@ outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m
 
 outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_strflw_flood_stats
 
-   * col1="Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out"
-   * col4-10: estimated peak flow magnitude for recurrence interval (1 10 20 50 100 200 500)
-   * dist 0-4 (index for type of fit):
-   
-     * GEV distribution using L moments (parameters for gamma function estimator see Handbook of hydrology pp 18.18)
-     * GEV parameters based on LH2 moments (Wang 1997)
-     * GEV parameters based on LH4 moments (Wang 1997)
-     * calculate EV1 parameters based on L moments
-     * LN Type 3 (???)
+* col1="Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out"
+* col4-10: estimated peak flow magnitude for recurrence interval (1 10 20 50 100 200 500)
+* dist 0-4 (index for type of fit):
+
+  * GEV distribution using L moments (parameters for gamma function estimator see Handbook of hydrology pp 18.18)
+  * GEV parameters based on LH2 moments (Wang 1997)
+  * GEV parameters based on LH4 moments (Wang 1997)
+  * calculate EV1 parameters based on L moments
+  * LN Type 3 (???)
 
 ::
 
