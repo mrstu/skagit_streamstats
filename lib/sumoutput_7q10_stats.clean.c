@@ -473,7 +473,7 @@ int main( int argc, char* argv[]){
 
 	/*calculate flood quantiles for all distributions and load to output arrays*/
 
-	p[0] = 0.002; // 5000 year
+	p[0] = 0.002; // 500 year
 	p[1] = 0.005; // 200 year
 	p[2] = 0.010; // 100 year
 	p[3] = 0.020; // 50 year
