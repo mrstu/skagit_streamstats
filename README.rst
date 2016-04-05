@@ -146,14 +146,10 @@ List for 1 statistic
 
 Floods **dist 4**
 
-::
-
 * sumtab_outputs_Feb_1960_2099lowflow.flood.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.flood.1980-2010.txt
 
 Lowflow **dist 0**
-
-::
 
 * sumtab_outputs_Feb_1960_2099lowflow.low.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.low.1980-2010.txt
@@ -175,7 +171,7 @@ Value and percent change tables
 
 Example tables for 1-year and 100-year flood flows:
 
-   tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p1-y1.csv
+tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p1-y1.csv
 
 ::
 
@@ -188,7 +184,7 @@ Example tables for 1-year and 100-year flood flows:
    ThunderCreek,1639.3,1632.2,1579.3,1579.8,1615.7,1474.7,1585.3,1669.7,1665.7,1510.4
    Whitechuck,3292.6,3406.3,3160.9,3564.5,3597.9,3384.7,3361.0,3375.4,3438.5,3096.2
 
-   tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p5-y100.csv
+tables.outputs_Feb_1960_2099lowflow.flood/table-flood_outputs_Feb_1960_2099lowflow.flood.1980-2010_rcp45_p5-y100.csv
 
 ::
 
