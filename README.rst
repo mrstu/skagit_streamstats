@@ -8,8 +8,8 @@ The statistical code was largely developed by Hamlet and the timing code by Stum
 
 Included here are components that were applied in the Skagit River basin.
 
-Project/Directory/File Structure
-================================
+Structure of Project I/O
+========================
 
 From daily time step source data, annual extreme event timing and magnitudes are tabulated.  Quantiles are derived using an unbiased estimator (Cunnane).
 
@@ -29,27 +29,62 @@ Within the source directory, processing will track across the set of time series
 
 $sourceUnique/$stationName.$gcm.$rcp.$suffix
 
-For a given time series, annual peak flood flow and annual low flow statistics and timing tables will be genearted.
+For a given time series, annual peak flood flow and annual low flow statistics and timing tables will be generated.
 
 ::
 
 $sourceUnique.flood.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{peak_flow_date,quantiles,strflw_flood_stats}
 $sourceUnique.low.$yearInitial-$yearFinal/$stationName.$gcm.$rcp.$suffix.{7q10_cal_date,7q10_flow_date,quantiles,strflw_7q10_stats}
 
-Peak Flows
-==========
+Managing Project(s)
+===================
 
-* quantiles
-* peak_flow_date
-* strflw_flood_stats
+run.{bclff, nobc_lff, skaglo}/
 
-Annual 7-day Low Flows
-======================
+master.bsh <-- setup.{1980-2010,2010-2040,2035-2065,2070-2099}.cfg
 
-* quantiles
-* 7q10_cal_date
-* 7q10_flow_date
-* strflw_7q10_stats
+#. run.bsh <-- lib/sumoutput_{flood,7q10}_stats``*``.c
+
+   * read setup config files
+   * compile
+   * loop across input times series and compute {flood,low} statistics
+   
+#. summ_stats.bsh
+
+   * find {flood,low} stat outputs
+   * extract distribution type 1 GEV-L for low  
+   * extract distribution type 5 LN3 for flood
+   * output flat file for flow type and time period (all stations/gcms/rcps)
+   
+#. scripts/bothex_{tables,tables_pctchg}.py
+
+   * bothex_tables.py -- create station x gcm table for (flowtype/time/rcp)
+   * bothex_tables_pctchg.py -- calculate percent changes relative to historic reference
+
+Timing Visualizations
+=====================
+
+Primary
+
+* timing/plot_tdeltaEns.bsh <-- timing/plot_yrpeak_enstops.py
+* timing/plot_yrcum_stations.bsh <-- timing/panel_yrcum.py
+* timing/plot_yrcum_stn-pers-gcms.bsh  <-- timing/panel_yrcum_stnper.py
+
+Secondary
+
+* timing/plot_yrpeak_support.py
+* timing/plot_yrpeak_{gcmtops,gcmrawbc,enstops}.py
+* timing/panel_yrcum{.py,_station.py,_stnper.py}
+
+Primary Peak Flows / Low Flow Output Files
+==========================================
+
+* quantiles (peak, low) <rank, flow, probability exceedance>
+* peak_flow_date (peak) <nrec, flow, wyday, year, month, day>
+* 7q10_flow_date (low) <nrec, flow, wy day, wy day of month start, day in month, (nummonths)>
+* 7q10_cal_date (low) <year, month, day, wy, (nummonths), flow>
+* strflw_flood_stats (peak) <fileid, "dist", distnum, estimated peak flow magnitude for recurrence interval (1 10 20 50 100 200 500)>
+* strflw_7q10_stats (low) <fileid, "dist", distnum, estimated 7-day averaged low flow magnitude for recurrence interval (500 200 100 50 20 10 2)>
 
 Example pipeline
 ================
@@ -119,11 +154,11 @@ outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m
 * col4-10: estimated peak flow magnitude for recurrence interval (1 10 20 50 100 200 500)
 * dist 0-4 (index for type of fit):
 
-  * GEV distribution using L moments (parameters for gamma function estimator see Handbook of hydrology pp 18.18)
-  * GEV parameters based on LH2 moments (Wang 1997)
-  * GEV parameters based on LH4 moments (Wang 1997)
-  * calculate EV1 parameters based on L moments
-  * LN Type 3 (???)
+  #. GEV distribution using L moments (parameters for gamma function estimator see Handbook of hydrology pp 18.18)
+  #. GEV parameters based on LH2 moments (Wang 1997)
+  #. GEV parameters based on LH4 moments (Wang 1997)
+  #. calculate EV1 parameters based on L moments
+  #. LN Type 3 (???)
 
 ::
 
@@ -131,7 +166,7 @@ outputs_Feb_1960_2099lowflow.flood.1980-2010/Diablo_output__glacier.bcc-csm1-1-m
    $col1 dist 1 -3038.7 44471.2 52079.1 61329.3 67844.7 74001.9 81643.6 
    $col1 dist 2 -34607.1 46503.4 52580.9 58345.2 61509.5 63930.2 66287.4
    $col1 dist 3  4091.1 43745.5 51301.8 61082.7 68412.0 75714.7 85349.2 
-   **$col1 dist 4  7814.0 42598.5 50617.8 61465.8 69876.9 78428.5 89854.1** (LN3 used preferentially for peak flows)
+   $col1 dist 4  7814.0 42598.5 50617.8 61465.8 69876.9 78428.5 89854.1 (LN3 used preferentially for peak flows)
    
 outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__streamflow.rcp45.daily.2.wy.day.bc.fx.aa.out_strflw_7q10_stats 
    
@@ -140,29 +175,29 @@ outputs_Feb_1960_2099lowflow.low.1980-2010/Diablo_output__glacier.bcc-csm1-1-m__
 
 ::
 
-   **$col1 dist 0 17.745857 80.233597 133.382034 193.193848 286.543304 373.394928 711.771484** (GEV L-moments used preferentially for most low flows)
+   $col1 dist 0 17.745857 80.233597 133.382034 193.193848 286.543304 373.394928 711.771484 (GEV L-moments used preferentially for most low flows)
    $col1 dist 1 -315.492065 -196.993652 -100.094559 4.706165 159.355988 293.578156 729.729736 
    $col1 dist 2 -1443.068481 -1136.786377 -897.201904 -649.409912 -306.023529 -30.450373 706.221863
    $col1 dist 3 179.410568 215.498642 247.219482 284.124664 344.500031 404.036133 675.645813 
    $col1 dist 4 194.625549 220.433929 245.012024 275.541107 329.154266 385.466217 667.988281
 
 
-List for 1 statistic
-====================
+Aggregate Results by Distribution
+=================================
 
-Floods **dist 4**
+Floods (**dist 4 = LN3**)
 
 * sumtab_outputs_Feb_1960_2099lowflow.flood.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.flood.1980-2010.txt
 
-Lowflow **dist 0**
+Lowflow (**dist 0 = GEV-L**)
 
 * sumtab_outputs_Feb_1960_2099lowflow.low.1980-2010.txt
 * sumtab_outputs_Feb_1960_2099noBC_lowflow.low.1980-2010.txt
 
 
-Pool 1-stat, 1-rcp, 1-recurrence interval, for all (stations, gcms)
-===================================================================
+For all (stations, gcms), pool by stat/rcp/T_recurrence triplet
+===============================================================
 
 Value and percent change tables
 
