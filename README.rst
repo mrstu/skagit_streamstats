@@ -6,7 +6,8 @@ This repository consists of tools for computing hydrological statistics of extre
 
 The statistical code was largely developed by Hamlet and the timing code by Stumbaugh.
 
-Included here are components that were applied in the Skagit River basin.
+Included here are components that were applied for Skagit River basin project(s) collaborations
+between Barandaoda, Raymond, Istanbulluoglu, Stumbaugh, and Hamlet.
 
 Structure of Project I/O
 ========================
